@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alyse</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #three-canvas {
+      width: 100%;
+      height: 80vh;
+    }
+    .jarvis-button {
+      margin-top: 1rem;
+      padding: 10px 20px;
+      background-color: #8f00ff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .jarvis-button:hover {
+      background-color: #a900ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue, mon Héros.</h1>
+  <p>Tu n’as rien raté. Le monde s’est mis en pause pour t’attendre.</p>
+  <button class="jarvis-button" onclick="alert('Protocol Jarvis : Actif. Tu peux reprendre le fil.')">
+    PROTOCOL JARVIS : ACTIF
+  </button>
+  <div id="three-canvas"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('three-canvas').appendChild(renderer.domElement);
+
+    const loader = new THREE.GLTFLoader();
+    loader.load('AlyseAvatar.glb', function(gltf) {
+      scene.add(gltf.scene);
+    }, undefined, function(error) {
+      console.error('Erreur de chargement du modèle 3D :', error);
+    });
+
+    const light = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(light);
+    camera.position.z = 3;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
